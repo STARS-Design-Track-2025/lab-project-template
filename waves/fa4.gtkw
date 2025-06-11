@@ -1,0 +1,28 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Tue Jun 10 20:37:50 2025
+[*]
+[dumpfile] "/home/shay/a/weyer7/System Verilog/Projects/Lab 5/waves/fa4.vcd"
+[dumpfile_mtime] "Tue Jun 10 20:37:24 2025"
+[dumpfile_size] 31192
+[savefile] "/home/shay/a/weyer7/System Verilog/Projects/Lab 5/waves/fa4.gtkw"
+[timestart] 0
+[size] 1850 1016
+[pos] -101 -101
+*-36.006805 2 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb.
+[treeopen] tb.fulladder.
+[sst_width] 233
+[signals_width] 78
+[sst_expanded] 1
+[sst_vpaned_height] 289
+@22
+tb.fulladder.A[3:0]
+tb.fulladder.B[3:0]
+@28
+tb.fulladder.Cin
+tb.fulladder.Cout
+@22
+tb.fulladder.S[3:0]
+[pattern_trace] 1
+[pattern_trace] 0
