@@ -1,20 +1,24 @@
-+-------------------+--------------------------+-----------------------------------------------------------------------------------------------+
-|      FUNCTION     |         USE CASE         |       EXPLANATION                                                                             |
-+-------------------+--------------------------+-----------------------------------------------------------------------------------------------+
-|     make cram     |    quick FPGA testing    |Programs the volatile configuration RAM in the FPGA. Program is lost when FPGA loses power.    |
-+-------------------+--------------------------+-----------------------------------------------------------------------------------------------+
-|    make flash     |permenant FPGA programming|Programs the non-volatile flash chip on the FPGA board. Program is not lost with loss of power.|
-+-------------------+--------------------------+-----------------------------------------------------------------------------------------------+
-|make sim_<name>_src|  behavioral verification |Compiles (but does not synthesize!) your code and runs your testbench.                         |
-+-------------------+--------------------------+-----------------------------------------------------------------------------------------------+
-|make sim_<name>_syn| cell-level verification  |Compiles and synthesizes your your code and runs your testbench on the synthesized design.     |
-+-------------------+--------------------------+-----------------------------------------------------------------------------------------------+
-| make vlint_<name> | check for errors in code |Compiles your code ONLY                                                                        |
-+-------------------+--------------------------+-----------------------------------------------------------------------------------------------+
-|     make time     | check timing of top-level|Compiles, synthesizes, and checks timing of your FPGA top-level code                           |
-+-------------------+--------------------------+-----------------------------------------------------------------------------------------------+
-|    make clean     |remove all temporary files|Removes all logs and temporary files. Does not need to be used under normal circumstances      |
-+-------------------+--------------------------+-----------------------------------------------------------------------------------------------+
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+|      FUNCTION     |         USE CASE          |       EXPLANATION                                                                             |
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+|     make cram     |    quick FPGA testing     |Programs the volatile configuration RAM in the FPGA. Program is lost when FPGA loses power.    |
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+|    make flash     |permenant FPGA programming |Programs the non-volatile flash chip on the FPGA board. Program is not lost with loss of power.|
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+|make sim_<name>_src|  behavioral verification  |Compiles (but does not synthesize!) your code and runs your testbench.                         |
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+|make sim_<name>_syn| cell-level verification   |Compiles and synthesizes your your code and runs your testbench on the synthesized design.     |
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+| make vlint_<name> | check for errors in code  |Compiles your code ONLY                                                                        |
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+|     make time     | check timing of top-level |Compiles, synthesizes, and checks timing of your FPGA top-level code                           |
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+|    make cells     |    schematic display      |Displays a schematic of the logic gates and flip-flops that make up your design.               |
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+|  make fpga-cells  | syn'ed schematic display  |Displays a schematic of the ice40-specific LUTs and flip-flops that make up your design.       |
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+|    make clean     |remove all temporary files|Removes all logs and temporary files. Does not need to be used under normal circumstances       |
++-------------------+--------------------------+------------------------------------------------------------------------------------------------+
 Replace <name> with the name of your module.
 
 Required naming convention:
