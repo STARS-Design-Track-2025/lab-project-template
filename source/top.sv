@@ -17,5 +17,7 @@ module top (
 );
   // Your code goes here...
 fa4 fulladder (.A(pb[3:0]), .B(pb[7:4]), .Cin(pb[8]), .S(right[3:0]), .Cout(right[4]));
-  
+// logic [31:0] out;
+// lies lies(.a({28'd0,pb[3:0]}), .b({28'd0, pb[7:4]}), .c(out));
+// assign left[7:0] = out[7:0];
 endmodule

@@ -133,6 +133,14 @@ cram: $(BUILD)/$(FPGA_TOP).bin
 	# Program volatile FPGA Configuration RAM (CRAM) with bitstream using iceprog
 	iceprog -S $(BUILD)/$(FPGA_TOP).bin
 
+#Show the synthesied diagram
+circuit : $(ICE) $(SRC) $(PINMAP)
+	# lint with Verilator
+	verilator --lint-only --top-module top -Werror-latch -y $(SRC) $(SRC)/top.sv
+	# if build folder doesn't exist, create it
+	mkdir -p $(BUILD)
+	# synthesize using Yosys
+	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth_ice40 -top top; show -format svg -viewer gimp"
 
 # Clean temporary files
 clean:
