@@ -134,7 +134,16 @@ cram: $(BUILD)/$(FPGA_TOP).bin
 	iceprog -S $(BUILD)/$(FPGA_TOP).bin
 
 #Show the synthesied diagram
-circuit : $(ICE) $(SRC) $(PINMAP)
+cells : $(ICE) $(SRC) $(PINMAP)
+	# lint with Verilator
+	verilator --lint-only --top-module top -Werror-latch -y $(SRC) $(SRC)/top.sv
+	# if build folder doesn't exist, create it
+	mkdir -p $(BUILD)
+	# synthesize using Yosys
+	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth -top top; show -format svg -viewer gimp"
+
+#Show the synthesied diagram
+fpga-cells : $(ICE) $(SRC) $(PINMAP)
 	# lint with Verilator
 	verilator --lint-only --top-module top -Werror-latch -y $(SRC) $(SRC)/top.sv
 	# if build folder doesn't exist, create it
