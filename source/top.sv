@@ -16,10 +16,5 @@ module top (
   input  logic txready, rxready
 );
   // Your code goes here...
-// fa4 fulladder (.A(pb[3:0]), .B(pb[7:4]), .Cin(pb[8]), .S(right[3:0]), .Cout(right[4]));
-// driver74hc164 dut (.data(pb[7:0]), .clk(hz100), .shift(pb[19]), .en(1'd1), .nrst(!reset), .);
-matrixdriver dut (.matdata({43'd0, pb}), .clk(hz100), .en(1'd1), .nrst(!reset), .scoldata(right[0]), .srowdata(right[1]), .sck(right[2]));
-// logic [31:0] out;
-// lies lies(.a({28'd0,pb[3:0]}), .b({28'd0, pb[7:4]}), .c(out));
-// assign left[7:0] = out[7:0];
+
 endmodule
