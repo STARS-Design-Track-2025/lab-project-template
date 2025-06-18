@@ -149,7 +149,7 @@ fpga-cells : $(ICE) $(SRC) $(PINMAP)
 	# if build folder doesn't exist, create it
 	mkdir -p $(BUILD)
 	# synthesize using Yosys
-	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth_ice40 -top top; show -format svg -viewer gimp"
+	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth_ice40 -top top; cd top; show -format svg -viewer gimp"
 
 # Clean temporary files
 clean:
