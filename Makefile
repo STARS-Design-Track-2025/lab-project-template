@@ -1,6 +1,6 @@
 ###########################################################################################
 # STARS 2025 - Makefile for SystemVerilog Projects
-# By Miguel Isrrael Teran, Alex Weyer, Johnny Hazboun
+# By Miguel Isrrael Teran, Alex Weyer, Johnny Hazboun, Ben Miller
 # 
 # Set tab spacing to 2 spaces per tab for best viewing results
 ###########################################################################################
@@ -86,6 +86,16 @@ vlint_%:
 	@verilator --lint-only -Wall -y $(SRC) $(SRC)/$*.sv
 	@echo -e "\nNo linting errors found!\n"
 
+
+# Compile and simulate synthesized design
+.PHONY: cells_%
+cells_%: $(ICE) $(SRC) $(PINMAP)
+	# lint with Verilator
+	verilator --lint-only --top-module top -Werror-latch -y $(SRC) $(SRC)/top.sv
+	# if build folder doesn't exist, create it
+	mkdir -p $(BUILD)
+	# synthesize using Yosys
+	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth -top $*; cd $*; show -format svg -viewer gimp"
 
 # *******************************************************************************
 # FPGA TARGETS
