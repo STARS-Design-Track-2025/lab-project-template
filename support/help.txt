@@ -13,13 +13,15 @@
 +-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
 |     make time     | check timing of top-level |Compiles, synthesizes, and checks timing of your FPGA top-level code                           |
 +-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
-|    make cells     |    schematic display      |Displays a schematic of the logic gates and flip-flops that make up your design.               |
+|    make cells     |    schematic display      |Displays a schematic of the modules/gates that make up the top level of your design.           |
++-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
+| make cells_<mod>  |    schematic display      |Displays a schematic of the logic gates and flip-flops for module <mod>         .              |
 +-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
 |  make fpga-cells  | syn'ed schematic display  |Displays a schematic of the ice40-specific LUTs and flip-flops that make up your design.       |
 +-------------------+---------------------------+-----------------------------------------------------------------------------------------------+
 |    make clean     |remove all temporary files|Removes all logs and temporary files. Does not need to be used under normal circumstances       |
 +-------------------+--------------------------+------------------------------------------------------------------------------------------------+
-Replace <name> with the name of your module.
+Replace <name>/<mod> with the name of your module.
 
 Required naming convention:
 If the source module's name is "test":
