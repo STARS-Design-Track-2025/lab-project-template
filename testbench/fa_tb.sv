@@ -4,7 +4,7 @@ module tb;
   fa fulladder (.A(A), .B(B), .Cin(Cin), .S(S), .Cout(Cout));
   initial begin
     // make sure to dump the signals so we can see them in the waveform
-    $dumpfile("sim.vcd");
+    $dumpfile("waves/fa.vcd"); //change the vcd vile name to your source file name
     $dumpvars(0, tb);
     // for loop to test all possible inputs
     for (integer i = 0; i <= 1; i++) begin
