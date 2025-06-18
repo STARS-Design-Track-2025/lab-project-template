@@ -133,13 +133,13 @@ time: $(BUILD)/$(FPGA_TOP).asc
 
 
 # Upload design to the FPGA's flash memory
-flash: $(BUILD)/$(FPGA_TOP).bin
+flash: clean $(BUILD)/$(FPGA_TOP).bin
 	# Program non-volatile flash memory with FPGA bitstream using iceprog
 	iceprog $(BUILD)/$(FPGA_TOP).bin
 
 
 # Upload design to the FPGA's non-volatile RAM
-cram: $(BUILD)/$(FPGA_TOP).bin
+cram: clean $(BUILD)/$(FPGA_TOP).bin
 	# Program volatile FPGA Configuration RAM (CRAM) with bitstream using iceprog
 	iceprog -S $(BUILD)/$(FPGA_TOP).bin
 
