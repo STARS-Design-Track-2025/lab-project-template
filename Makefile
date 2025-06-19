@@ -83,9 +83,9 @@ sim_%_syn: syn_%
 # Lint Design Only
 .PHONY: vlint_%
 vlint_%:
-	@verilator --lint-only -Wall -y $(SRC) $(SRC)/$*.sv
+	@verilator --lint-only -Wall -y $(SRC) $(SRC)/$*.sv $(TB) $(TB)/$*.sv
 	@echo -e "\nNo linting errors found!\n"
-
+ 	
 
 # Compile and simulate synthesized design
 .PHONY: cells_%
@@ -164,3 +164,5 @@ fpga-cells : $(ICE) $(SRC) $(PINMAP)
 # Clean temporary files
 clean:
 	rm -rf build/ mapped/ *.log waves/*.vcd
+
+
