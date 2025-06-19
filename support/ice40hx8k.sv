@@ -9,12 +9,10 @@ module ice40hx8k (hwclk,pb,ss7,ss6,ss5,ss4,ss3,ss2,ss1,ss0,left,right,red,green,
     input Rx;
     output Tx, CTSn, DCDn;
 
-    // reg hz100;
-    // assign hz100 = hwclk;
     reg [15:0] ctr = 0;
     reg hz100 = 0;
     always @ (posedge hwclk)
-      if (ctr == 0)
+      if (ctr == 60000)
         begin
           ctr <= 0;
           hz100 <= ~hz100;
@@ -23,7 +21,7 @@ module ice40hx8k (hwclk,pb,ss7,ss6,ss5,ss4,ss3,ss2,ss1,ss0,left,right,red,green,
         ctr <= ctr + 1;
 
     assign CTSn = ~1; // clear to send
-    assign DCDn = ~1; // carrier detect (makes Kermit - not the frog (says Megan) - happy)
+    assign DCDn = ~1; // carrier detect (makes Kermit happy)
 
 // Example calculation (SIMPLE):
 //
