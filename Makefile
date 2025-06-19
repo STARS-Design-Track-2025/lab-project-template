@@ -83,7 +83,7 @@ sim_%_syn: syn_%
 # Lint Design Only
 .PHONY: vlint_%
 vlint_%:
-	@verilator --lint-only -Wall -y $(SRC) $(SRC)/$*.sv $(TB) $(TB)/$*.sv
+	@verilator --lint-only -Wall --timing -y $(SRC) $(SRC)/$*.sv $(TB)/$*_tb.sv
 	@echo -e "\nNo linting errors found!\n"
  	
 
@@ -102,7 +102,7 @@ cells_%: $(ICE) $(SRC) $(PINMAP)
 # *******************************************************************************
 
 # Check code and synthesize design into a JSON netlist
-$(BUILD)/$(FPGA_TOP).json : $(ICE) $(SRC) $(PINMAP)
+$(BUILD)/$(FPGA_TOP).json : $(ICE) $(SRC)/* $(PINMAP)
 	# lint with Verilator
 	verilator --lint-only --top-module top -Werror-latch -y $(SRC) $(SRC)/top.sv
 	# if build folder doesn't exist, create it
@@ -133,13 +133,13 @@ time: $(BUILD)/$(FPGA_TOP).asc
 
 
 # Upload design to the FPGA's flash memory
-flash: clean $(BUILD)/$(FPGA_TOP).bin
+flash: $(BUILD)/$(FPGA_TOP).bin
 	# Program non-volatile flash memory with FPGA bitstream using iceprog
 	iceprog $(BUILD)/$(FPGA_TOP).bin
 
 
 # Upload design to the FPGA's non-volatile RAM
-cram: clean $(BUILD)/$(FPGA_TOP).bin
+cram: $(BUILD)/$(FPGA_TOP).bin
 	# Program volatile FPGA Configuration RAM (CRAM) with bitstream using iceprog
 	iceprog -S $(BUILD)/$(FPGA_TOP).bin
 
