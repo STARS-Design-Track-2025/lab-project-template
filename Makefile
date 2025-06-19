@@ -161,6 +161,15 @@ fpga-cells : $(ICE) $(SRC) $(PINMAP)
 	# synthesize using Yosys
 	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth_ice40 -top top; show -format svg -viewer gimp"
 
+# Combination Lock Demo
+.PHONY: lock_demo
+lock_demo:
+	mkdir -p $(BUILD)
+	$(YOSYS) -p "read_verilog -sv $(ICE) support/lock_bb_top.sv support/blackbox_lock.v $(UART); synth_ice40 -top ice40hx8k; write_json $(BUILD)/$(FPGA_TOP).json"
+	$(NEXTPNR) --hx8k --package ct256 --pcf $(PINMAP) --asc $(BUILD)/$(FPGA_TOP).asc --json $(BUILD)/$(FPGA_TOP).json 2> >(sed -e 's/^.* 0 errors$$//' -e '/^Info:/d' -e '/^[ ]*$$/d' 1>&2)
+	icepack $(BUILD)/$(FPGA_TOP).asc $(BUILD)/$(FPGA_TOP).bin
+	iceprog -S $(BUILD)/$(FPGA_TOP).bin
+
 # Clean temporary files
 clean:
 	rm -rf build/ mapped/ *.log waves/*.vcd
