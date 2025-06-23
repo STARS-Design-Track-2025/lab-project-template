@@ -114,7 +114,7 @@ $(BUILD)/$(FPGA_TOP).json : $(ICE) $(SRC)/* $(PINMAP)
 # Place and route design using nextpnr
 $(BUILD)/$(FPGA_TOP).asc : $(BUILD)/$(FPGA_TOP).json
 	# Place and route using nextpnr
-	$(NEXTPNR) --hx8k --package ct256 --pcf $(PINMAP) --asc $(BUILD)/$(FPGA_TOP).asc --json $(BUILD)/$(FPGA_TOP).json 2> >(sed -e 's/^.* 0 errors$$//' -e '/^Info:/d' -e '/^[ ]*$$/d' 1>&2)
+	$(NEXTPNR) --hx8k --package ct256 --placer-heap-cell-placement-timeout 0 --pcf $(PINMAP) --asc $(BUILD)/$(FPGA_TOP).asc --json $(BUILD)/$(FPGA_TOP).json 2> >(sed -e 's/^.* 0 errors$$//' -e '/^Info:/d' -e '/^[ ]*$$/d' 1>&2)
 
 
 # Convert to bitstream using IcePack
@@ -128,7 +128,7 @@ time: $(BUILD)/$(FPGA_TOP).asc
 	# Re-synthesize
 	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth_ice40 -top ice40hx8k -json $(BUILD)/$(FPGA_TOP).json"
 	# Place and route using nextpnr
-	$(NEXTPNR) --hx8k --package ct256 --asc $(BUILD)/$(FPGA_TOP).asc --json $(BUILD)/$(FPGA_TOP).json 2> >(sed -e 's/^.* 0 errors$$//' -e '/^Info:/d' -e '/^[ ]*$$/d' 1>&2)
+	$(NEXTPNR) --hx8k --package ct256 --placer-heap-cell-placement-timeout 0 --asc $(BUILD)/$(FPGA_TOP).asc --json $(BUILD)/$(FPGA_TOP).json 2> >(sed -e 's/^.* 0 errors$$//' -e '/^Info:/d' -e '/^[ ]*$$/d' 1>&2)
 	icetime -tmd hx8k $(BUILD)/$(FPGA_TOP).asc
 
 
@@ -166,7 +166,7 @@ fpga-cells : $(ICE) $(SRC) $(PINMAP)
 lock_demo:
 	mkdir -p $(BUILD)
 	$(YOSYS) -p "read_verilog -sv $(ICE) support/lock_bb_top.sv support/blackbox_lock.v $(UART); synth_ice40 -top ice40hx8k; write_json $(BUILD)/$(FPGA_TOP).json"
-	$(NEXTPNR) --hx8k --package ct256 --pcf $(PINMAP) --asc $(BUILD)/$(FPGA_TOP).asc --json $(BUILD)/$(FPGA_TOP).json 2> >(sed -e 's/^.* 0 errors$$//' -e '/^Info:/d' -e '/^[ ]*$$/d' 1>&2)
+	$(NEXTPNR) --hx8k --package ct256 --placer-heap-cell-placement-timeout 0 --pcf $(PINMAP) --asc $(BUILD)/$(FPGA_TOP).asc --json $(BUILD)/$(FPGA_TOP).json 2> >(sed -e 's/^.* 0 errors$$//' -e '/^Info:/d' -e '/^[ ]*$$/d' 1>&2)
 	icepack $(BUILD)/$(FPGA_TOP).asc $(BUILD)/$(FPGA_TOP).bin
 	iceprog -S $(BUILD)/$(FPGA_TOP).bin
 
