@@ -8,6 +8,12 @@
 export PATH := /home/shay/a/ece270/bin:$(PATH)
 export LD_LIBRARY_PATH := /home/shay/a/ece270/lib:$(LD_LIBRARY_PATH)
 
+# Variables for PDK Installation
+export PDK_ROOT := $(PWD)/pdks
+export PDK := sky130A
+export PDK_PATH := $(PDK_ROOT)/$(PDK)
+export PDK_VERSION_TAG := 0fe599b2afb6708d281543108caf8310912f54af
+
 YOSYS=yosys
 NEXTPNR=nextpnr-ice40
 SHELL=bash
@@ -27,9 +33,31 @@ DEVICE  = 8k
 TIMEDEV = hx8k
 FOOTPRINT = ct256
 
+# PDK sky130A Standard Cell Libraries
+LIBERTY := $(PDK_PATH)/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_100C_1v80.lib
+VERILOG := $(PDK_PATH)/libs.ref/sky130_fd_sc_hd/verilog/primitives.v $(PDK_PATH)/libs.ref/sky130_fd_sc_hd/verilog/sky130_fd_sc_hd.v
+
 help:
 	@echo -e "Help..."
 	@cat support/help.txt
+
+# Setup sky130 PDK files
+.PHONY: setup_pdk
+setup_pdk:
+	@python3 -m pip install --user --upgrade --no-cache-dir volare &&\
+	mkdir -p pdks && \
+	volare enable --pdk sky130 $(PDK_VERSION_TAG) &&\
+	echo -e "\nPDK Setup Complete!\n"
+
+
+# Check environment (sky130A must be loaded)
+.PHONY: check_env
+check_env:
+	@if [ -z "$$(ls -A $(PDK_ROOT) 2>/dev/null)" ]; then \
+		echo -e "\nERROR: PDK not found! Have you run \"make setup_pdk\"?\n" >&2; exit 1; \
+	else \
+		echo -e "\nEnvironment setup correctly!\n"; \
+	fi
 
 # *******************************************************************************
 # COMPILATION & SIMULATION TARGETS
@@ -55,10 +83,10 @@ sim_%_src:
 
 # Run synthesis on Design
 .PHONY: syn_%
-syn_%:
+syn_%: check_env
 	@echo -e "Synthesizing design...\n"
 	@mkdir -p $(MAP)
-	$(YOSYS) -p "read_verilog -sv -noblackbox $(SRC)/*; synth_ice40 -top $*; clean; write_verilog $(MAP)/$*.v"
+	$(YOSYS) -d -p "read_verilog -sv -noblackbox $(SRC)/*; synth -top $*; dfflibmap -liberty $(LIBERTY); abc -liberty $(LIBERTY); clean; write_verilog -noattr -noexpr -nohex -nodec -defparam $(MAP)/$*.v"
 	@echo -e "\nSynthesis complete!\n"
 
 
@@ -173,5 +201,12 @@ lock_demo:
 # Clean temporary files
 clean:
 	rm -rf build/ mapped/ *.log waves/*.vcd
+
+
+# Thorough cleaning (remove all PDK files)
+.PHONY: veryclean
+veryclean: clean
+	@rm -rf $(PDK_ROOT) &&\
+	echo -e "PDK files removed!\n"
 
 
