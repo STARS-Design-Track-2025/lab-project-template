@@ -1,4 +1,4 @@
-`timescale 1ms/10ps
+`timescale 1ms/10ns
 module tb;
   logic A, B, Cin, S, Cout;
   fa fulladder (.A(A), .B(B), .Cin(Cin), .S(S), .Cout(Cout));
@@ -10,15 +10,15 @@ module tb;
     for (integer i = 0; i <= 1; i++) begin
       for (integer j = 0; j <= 1; j++) begin
         for (integer k = 0; k <= 1; k++) begin
-        // set our input signals
-        A = i; B = j; Cin = k;
-        #1;
-        // display inputs and outputs
-        $display("A=\%b, B=\%b, Cin=\%b, Cout=\%b, S=\%b", A, B, Cin, Cout, S);
+          // set our input signals
+          A = i[0]; B = j[0]; Cin = k[0];
+          #1;
+          // display inputs and outputs
+          $display("A=\%b, B=\%b, Cin=\%b, Cout=\%b, S=\%b", A, B, Cin, Cout, S);
         end
       end
     end
-  // finish the simulation
-  #1 $finish;
+    // finish the simulation
+    #1 $finish;
   end
 endmodule
